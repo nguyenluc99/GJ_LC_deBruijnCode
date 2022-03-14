@@ -73,11 +73,16 @@ vector<string> genWordList(int b, int k) {
   return forbiddenWords;
 }
 
+long abss(long num) {if (num >= 0) return num; return -num;}
 void printPoli(vector<long> poli) {
   for (int order = poli.size()-1; order >= 0; order --) {
+    // print sign
     if (poli.at(order) == 0) continue;
-    if (order != poli.size() - 1) cout << "+";
-    if (poli.at(order) > 1 || order == 0) cout << poli.at(order);
+    if (poli.at(order) < 0) cout << "-";
+    else if (order != poli.size() - 1) cout << "+"; // poli.at(order) > 0
+    // print coef
+    if ((poli.at(order) != 1 && poli.at(order) != -1) || order == 0) cout << abss(poli.at(order));
+    // print variable
     if (order > 0) cout << "x";
     if (order > 9) cout << "^{" << order << "}";
     else if (order > 1) cout << "^" << order;
