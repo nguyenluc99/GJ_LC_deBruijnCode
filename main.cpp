@@ -20,8 +20,8 @@ int main(int argc, char* argv[]) {
   cout << "b = " << b << ", k = " << k << endl;
   assert( b < pow(2, k));
 
-  solveb4(k);
-
+  solvebk(4,3);
+  solvebk(3,2);
   return 0;
 
 }

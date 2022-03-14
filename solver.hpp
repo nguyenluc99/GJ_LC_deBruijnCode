@@ -10,4 +10,4 @@
 using namespace std;
 
 //vector<long double> solveb4(int);
-void solveb4(int);
+void solvebk(int,int);

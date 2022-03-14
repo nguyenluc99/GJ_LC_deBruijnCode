@@ -60,9 +60,98 @@ vector<vector<vector<long> > > init(int k) {
   return {row1, row2, row3, row4, row5};
 }
 
+
+// vector<vector<vector<long> > > initb4k3() {
+//   vector<vector<long> > row1 = {
+//     getG(3),
+//     power(3),
+//     poliAdd(power(3), power(2)),
+//     power(3),
+//     power(3),
+//     power(4)
+//   };
+//   vector<vector<long> > row2 = {
+//     power(4),
+//     getG(4),
+//     power(4),
+//     poliAdd(poliAdd(power(4), power(3)), power(2)),
+//     poliAdd(power(4), power(3)),
+//     power(5)
+//   };
+//   vector<vector<long> > row3 = {
+//     power(5),
+//     poliAdd(power(5), power(4)),
+//     poliAdd(poliAdd(power(5), power(3)), {(long)1}),
+//     poliAdd(poliAdd(power(5), power(4)), power(1)),
+//     poliAdd(poliAdd(power(5), power(4)), power(2)),
+//     power(6)
+//   };
+//   vector<vector<long> > row4 = {
+//     power(5),
+//     poliAdd(poliAdd(power(5), power(4)), power(2)),
+//     poliAdd(power(5), power(2)),
+//     poliAdd(poliAdd(poliAdd(power(5), power(4)), power(3)), power(0)),
+//     poliAdd(poliAdd(power(5), power(4)), power(1)),
+//     power(6)
+//   };
+//   vector<vector<long> > row4 = {
+// 
+//   };
+//   vector<vector<long> > row5 = {
+// 
+//   };
+// }
+
+
+
+vector<vector<vector<long> > > initb4k3_new() {
+  vector<vector<long> > row1 = {
+    {1,1,1,1},
+    {0,0,0,1},
+    {0,0,1,1},
+    {0,0,0,1},
+    {0,0,0,1},
+    {0,0,0,0,1}
+  };
+  vector<vector<long> > row2 = {
+    {0,0,0,0,1},
+    {1,1,1,1,1},
+    {0,0,0,0,1},
+    {0,0,1,1,1},
+    {0,0,0,1,1},
+    {0,0,0,0,0,1}
+  };
+  vector<vector<long> > row3 = {
+    {0,0,0,0,0,1},
+    {0,0,0,0,1,1},
+    {1,0,0,1,0,1},
+    {0,1,0,0,1,1},
+    {0,0,1,0,1,1},
+    {0,0,0,0,0,0,1}
+  };
+  vector<vector<long> > row4 = {
+    {0,0,0,0,0,1},
+    {0,0,0,1,1,1},
+    {0,0,1,0,0,1},
+    {1,0,0,1,1,1},
+    {0,1,0,0,1,1},
+    {0,0,0,0,0,0,1}
+  };
+  vector<vector<long> > row5 = {
+    {0,0,0,0,1,1},
+    {0,0,0,0,0,1},
+    {0,1,0,0,1,1},
+    {0,0,1,0,0,1},
+    {1,0,0,1,0,1},
+    {0,0,0,0,0,0,1}
+  };
+  return {row1, row2, row3, row4, row5};
+}
+
+
 vector<long> getDeterminant(vector<vector<vector<long> > > matrix, int pos) {
   vector<vector<vector<long> > > subMat = subMatrix(matrix, pos, false);
-  int sign = pow(-1, pos+1);
+  int sign = pow(-1, pos);
   return poliMulti({sign}, matrixDet(subMat,  subMat.size()));
 }
 
@@ -73,42 +162,45 @@ void solve(vector<vector<vector<long> > > matrix, int pos) {
   printPoli(det);
   // vector<long>().swap(det);
 }
+vector<vector<vector<long> > > initb3k2(){
+  vector<vector<long> > row1 = {
+    {1,1,1},
+    {0,0,1},
+    {0,0,0,1}
+  };
+  vector<vector<long> > row2 = {
+    {0,0,0,1},
+    {1,1,1,1},
+    {0,0,0,0,1}
+  };
+  return {row1, row2};
+}
 
-//vector<long> solveb4(int k) {
-void solveb4(int k) {
-  const int b = 4;
-  assert( b < pow(2, k));
+void solvebk(int b, int k) {
   vector<vector<vector<long> > > matrix, mat;
   vector<long> det, sum, nume, deno;
-  // forbidWords = genWordList(b, k);
-
-  matrix = init(k);
-  cout << matrix.size() << endl;
-
- //  mat = {
- //    { {1},  {2}, {3, 1}, {3, 2, 3, 4}, {0, 2, 3}, {1,2,3}},
- //    { {2},  {3, 2}, {10}, {2, 2, 10}, {1, 2, 3}, {0,0,1}},
- //    { {2, 1},  {3, 1}, {10, 1}, {1, 2}, {2, 3}, {2,0,0,1}},
- //    { {2, 2, 3, 4, 5},  {3, 1, 2, 3}, {10, 1}, {1, 2, 1}, {1, 2, 3}, {2}},
- //    { {2, 1, 3, 4, 5},  {3, 0, 2, 3}, {1, 1}, {2, 1}, {1, 2, 3}, {1}}
- //  };
-
-  printMatrix(matrix);
-  for (int pos = 0; pos < 4; pos++) {
-    cout << "RUNNING: "  << pos << endl;
+  sum = {0,0};
+  if (b == 4 && k == 3) {
+    cout << endl << "SOLVE FOR b=4, k=3" << endl;
+    matrix = initb4k3_new();
+  } else if (b == 3 && k == 2) {
+    cout << endl << "SOLVE FOR b=3, k=2" << endl;
+    matrix = initb3k2();
+  } else return;
+  for (int pos = 0; pos < matrix.size(); pos++) {
     det = getDeterminant(matrix, pos);
+    cout << "RUNNING: "  << pos << " == " ;
+    printPoli(det);
+    cout << endl;
     sum = poliAdd(sum, poliMulti({-2}, det));
   }
-  nume = getDeterminant(matrix, 4);
-  cout << "SUM DET" << endl;
-  printPoli(sum);
+  nume = getDeterminant(matrix, matrix.size());
+  printPoli(nume);
   deno = poliAdd(poliMulti({1, -2}, nume), sum);
-  // shorten:
+
   int zeroNum = 0, zeroDen = 0;
   for (int num : nume) if (num == 0) zeroNum ++; else break;
   for (int num : deno) if (num == 0) zeroDen ++; else break;
-  // zeroNum = minIndex(nume);
-  // zeroDen = minIndex(deno);
 
   for (int i = 0; i < min(zeroNum, zeroDen); i++) {
     nume.erase(nume.begin());
@@ -120,3 +212,4 @@ void solveb4(int k) {
   printPoli(deno);
 
 }
+
