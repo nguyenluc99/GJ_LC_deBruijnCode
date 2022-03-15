@@ -6,9 +6,12 @@
 #include <typeinfo>
 #include <string>
 #include <bitset>
+//#include <boost/multiprecision/cpp_int.hpp>
 #include <algorithm>
+#include <math.h>
 #include "util.hpp"
 using namespace std;
+
 
 vector<string> mergeVector(vector<string> a, vector<string> b) {
   vector<string> c = a;
@@ -55,7 +58,6 @@ vector<string> genString(string word, int bound) {
       result.push_back(newWord);
     }
   }
-
   return result;
 }
 
@@ -73,9 +75,35 @@ vector<string> genWordList(int b, int k) {
   return forbiddenWords;
 }
 
-long abss(long num) {if (num >= 0) return num; return -num;}
-void printPoli(vector<long> poli) {
-  for (int order = poli.size()-1; order >= 0; order --) {
+template <typename T>
+T abss(T num) {if (num >= 0) return num; return -num;}
+
+// std::ostream& operator << (std::ostream& dest, __int128_t value) {
+//     std::ostream::sentry s(dest);
+//     if (s) {
+//         __uint128_t tmp = value<0?-value:value;
+//         char buffer[128];
+//         char* d = std::end(buffer);
+//         do {
+//             -- d;
+//             *d = "0123456789"[tmp%10];
+//             tmp/=10;
+//         }while(tmp!=0);
+//         if(value<0) {
+//             --d;
+//             *d = '-';
+//         }
+//         int len = std::end(buffer)-d;
+//         if (dest.rdbuf()->sputn(d,len)!=len) {
+//             dest.setstate(std::ios_base::badbit);
+//         }
+//     }
+//     return dest;
+// }
+
+template <typename T>
+void printPoli(vector<T> poli) {
+  for (orderdt order = poli.size()-1; order >= 0; order --) {
     // print sign
     if (poli.at(order) == 0) continue;
     if (poli.at(order) < 0) cout << "-";
@@ -84,15 +112,15 @@ void printPoli(vector<long> poli) {
     if ((poli.at(order) != 1 && poli.at(order) != -1) || order == 0) cout << abss(poli.at(order));
     // print variable
     if (order > 0) cout << "x";
-    if (order > 9) cout << "^{" << order << "}";
+    if (order > 9) cout << "^" << order << "";
     else if (order > 1) cout << "^" << order;
   }
 }
 
 // polinomoal function
 template <typename T>
-int minIndex(vector<T> vec) {
-  for (int i = 0; i < vec.size(); i++) {
+orderdt minIndex(vector<T> vec) {
+  for (orderdt i = 0; i < vec.size(); i++) {
     if (vec.at(i) != (T) 0) return i;
   }
   return -1;
@@ -106,13 +134,13 @@ vector<T> trimZero(vector<T> vec) {
   return vec;
 }
 
-//template<typename T>
-vector<long> poliMulti(vector<long> a, vector<long> b) {
+template<typename T>
+vector<T> poliMulti(vector<T> a, vector<T> b) {
   a = trimZero(a);
   b = trimZero(b);
-  vector<long> c(a.size() + b.size() - 1, 0);
-  for (int ord = 0; ord < c.size(); ord ++) {
-    for (int runOrd = 0; runOrd <= ord ; runOrd ++) {
+  vector<T> c(a.size() + b.size() - 1, (T) 0);
+  for (orderdt ord = 0; ord < c.size(); ord ++) {
+    for (orderdt runOrd = 0; runOrd <= ord ; runOrd ++) {
       if (runOrd < a.size() && ord - runOrd < b.size())
         c[ord] += a[runOrd] * b[ord - runOrd];
     }
@@ -120,10 +148,10 @@ vector<long> poliMulti(vector<long> a, vector<long> b) {
   return c;
 }
 
-//template<typename T>
-vector<long> poliAdd(vector<long> a, vector<long> b) {
-  vector<long> c(max(a.size(), b.size()), 0);
-  for (int ord = 0; ord < c.size(); ord ++) {
+template<typename T>
+vector<T> poliAdd(vector<T> a, vector<T> b) {
+  vector<T> c(max(a.size(), b.size()), 0);
+  for (unsigned long long ord = 0; ord < c.size(); ord ++) {
     if (ord < a.size()) c[ord] += a[ord];
     if (ord < b.size()) c[ord] += b[ord];
   }
@@ -132,7 +160,9 @@ vector<long> poliAdd(vector<long> a, vector<long> b) {
   return  c;
 }
 
-void printMatrix(vector<vector<vector<long> > > matrix) {
+template<typename T>
+void printMatrix(vector<vector<vector<T> > > matrix) {
+  // only up to 5 row, 6 column by now
   int row = matrix.size();
   for (int r = 0; r < row; r++) {
     int col = matrix[r].size();
@@ -144,15 +174,16 @@ void printMatrix(vector<vector<vector<long> > > matrix) {
   }
 }
 
-vector<vector<vector<long> > > subMatrix(vector<vector<vector<long> > > matrix, int pos, bool removeFirst) {
-  vector<vector<vector<long> > > newMatrix;
+template<typename T>
+vector<vector<vector<T> > > subMatrix(vector<vector<vector<T> > > matrix, int pos, bool removeFirst) {
+  vector<vector<vector<T> > > newMatrix;
   if (removeFirst) {
     matrix.erase(matrix.begin());
   }
   int maxr = matrix.size(),
       maxc = matrix[0].size();
   for (int r = 0; r < maxr; r++) {
-    vector<vector<long> > tmp;
+    vector<vector<T> > tmp;
     for (int c = 0; c < maxc; c++) {
       if (c != pos) tmp.push_back(matrix[r][c]);
     }
@@ -161,15 +192,16 @@ vector<vector<vector<long> > > subMatrix(vector<vector<vector<long> > > matrix, 
   return newMatrix;
 }
 
-vector<long> matrixDet(vector<vector<vector<long> > > matrix, int size){
+template<typename T>
+vector<T> matrixDet(vector<vector<vector<T> > > matrix, int size){
   if (size == 1) {
-    vector<long> elem = matrix[0][0];
+    vector<T> elem = matrix[0][0];
     return elem;
   }
-  vector<long> det, coef, res;
-  vector<long> result = {0};
-  vector<vector<vector<long> > > subMat;
-  vector<vector<long> > firstRow = matrix[0];
+  vector<T> det, coef, res;
+  vector<T> result = {(T)0};
+  vector<vector<vector<T> > > subMat;
+  vector<vector<T> > firstRow = matrix[0];
   int sign = 1;
   for(int i = 0; i < size; i++) {
     subMat = subMatrix(matrix, i, true);
@@ -183,28 +215,60 @@ vector<long> matrixDet(vector<vector<vector<long> > > matrix, int size){
 }
 
 // mathematics fulction
-vector<long> getH(int step, int maxOrder) {
-  vector<long> result(maxOrder + 1, (long) 0);
-  for (int i = 0; maxOrder - step * i >= 0; i++) {
-    result[maxOrder - step * i] = (long) 1;
+template<typename T>
+vector<T> getH(int step, int maxOrder, T datatype) {
+  vector<T> result(maxOrder + 1, (T) 0);
+  for (orderdt i = 0; maxOrder - step * i >= 0; i++) {
+    result[maxOrder - step * i] = (T) 1;
   }
   return result;
 }
 
-vector<long> getG(int maxOrder) {
+template<typename T>
+vector<T> getG(int maxOrder, T datatype) {
   //return poliAdd({1}, getH(1, maxOrder));
-  // return (vector<long>) getH(1, maxOrder);
-  vector<long> result(maxOrder + 1, (long) 0);
-  for (int i = 0; maxOrder - i >= 0; i++) {
-    result[maxOrder - i] = (long) 1;
+  // return (vector<T>) getH(1, maxOrder);
+  vector<T> result(maxOrder + 1, (T) 0);
+  for (orderdt i = 0; maxOrder - i >= 0; i++) {
+    result[maxOrder - i] = (T) 1;
   }
   return result;
 }
 
-vector<long> power(int order){
-  vector<long> result(order + 1, 0);
-  result[order] = 1;
+template <typename T>
+vector<T> power(orderdt order, T datatype){
+  vector<T> result(order + 1, 0);
+  result[order] = (T) 1;
   return result;
+}
+
+template <typename T>
+orderdt minOrder(vector<T> poli) {
+  for (orderdt i = 0; i < poli.size(); i++) {
+    if (poli.at(i) != 0) return i;
+  }
+  return (orderdt) poli.size();
+}
+
+template <typename T>
+void macclauExpand(vector<T> nume, vector<T> deno, orderdt order) {
+  assert(order >= 0);
+  orderdt minPowerDeno = minOrder(deno);
+  T quot;
+  int count = 0;
+
+  for (orderdt i = 0; i <= order; i++) {
+    orderdt minPowerNume = minOrder(nume);
+    quot = nume.at(minPowerNume) / deno.at(minPowerDeno);
+    if (i >= (count + 1) * order / 10) {
+      cout << "quot: " << quot << " at i = " << i  << "rate is: " << log(quot) / log(2) / i << endl;
+      count ++;
+    }
+      //<< ", nume: " << nume.at(minPowerNume)
+      //<< ", deno: " << deno.at(minPowerDeno) << endl;
+    //printPoli(nume);
+    nume = poliAdd(nume, poliMulti(deno, poliMulti({-quot}, power(minPowerNume - minPowerDeno, quot))));
+  }
 }
 
 

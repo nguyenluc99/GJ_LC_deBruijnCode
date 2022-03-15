@@ -1,3 +1,5 @@
+//#ifndef __UTIL_H__
+//#define __UTIL_H__
 #include <iostream>
 #include <vector>
 #include <map>
@@ -6,8 +8,11 @@
 #include <typeinfo>
 #include <string>
 #include <bitset>
+//#include <boost/multiprecision/cpp_int.hpp>
 using namespace std;
 
+typedef int coefdt;
+typedef int orderdt; // normally integer
 
 vector<string> mergeVector(vector<string> a, vector<string> b);
 
@@ -24,27 +29,46 @@ vector<string> genString(string word, int bound);
 vector<string> genWordList(int, int);
 
 // polinomial function 
-void printPoli(vector<long>);
+template <typename T>
+T abss(T num) ;
 
 template <typename T>
-int minIndex(vector<T>);
+void printPoli(vector<T>);
 
-vector<long> poliMulti(vector<long>, vector<long>);
+template <typename T>
+orderdt minIndex(vector<T>);
 
-vector<long> poliAdd(vector<long>, vector<long>);
+template <typename T>
+vector<T> poliMulti(vector<T>, vector<T>);
+
+template <typename T>
+vector<T> poliAdd(vector<T>, vector<T>);
 
 // matrix function
-void printMatrix(vector<vector<vector<long> > >);
+template<typename T>
+void printMatrix(vector<vector<vector<T> > >);
 
-vector<vector<vector<long> > > subMatrix(vector<vector<vector<long> > >, int, bool);
+template<typename T>
+vector<vector<vector<T> > > subMatrix(vector<vector<vector<T> > >, int, bool);
 
-vector<long> matrixDet(vector<vector<vector<long> > >, int size);
+template<typename T>
+vector<T> matrixDet(vector<vector<vector<T> > >, int size);
 
-vector<long> getH(int step, int maxOrder);
+template<typename T>
+vector<T> getH(orderdt step, orderdt maxOrder, T);
 
-vector<long> getG(int maxOrder);
+template<typename T>
+vector<T> getG(orderdt maxOrder, T);
 
-vector<long> power(int order);
+template <typename T>
+vector<T> power(orderdt order, T);
 
+//template <typename T>
+// template <typename T>
+// orderdt minPower(vector<T> poli);
 
+//template <typename T>
+template <typename T>
+void macclauExpand(vector<T>, vector<T>, orderdt order);
 
+//#endif

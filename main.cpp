@@ -6,6 +6,7 @@
 #include <typeinfo>
 #include <string>
 #include <bitset>
+// #include <boost/multiprecision/cpp_int.hpp>
 #include "util.hpp"
 #include "solver.hpp"
 using namespace std;
@@ -20,8 +21,10 @@ int main(int argc, char* argv[]) {
   cout << "b = " << b << ", k = " << k << endl;
   assert( b < pow(2, k));
 
-  solvebk(4,3);
+  cout << "START" << endl;
+  // solvebk(4,3);
   solvebk(3,2);
+  // solvebk(4,4);
   return 0;
 
 }
