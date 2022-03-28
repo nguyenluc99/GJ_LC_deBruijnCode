@@ -103,6 +103,49 @@ vector<vector<vector<long> > > init(int k) {
 // }
 
 
+vector<vector<vector<long> > > initb4k4(){
+  vector<vector<long> > row1 = {
+    {1,1,1,1,1},
+    {0,0,0,0,1},
+    {0,0,0,1,1},
+    {0,0,0,0,1},
+    {0,0,0,0,1},
+    {0,0,0,0,0,1}
+  };
+  vector<vector<long> > row2 = {
+    {0,0,0,0,0,1},
+    {1,1,1,1,1,1},
+    {0,0,0,0,0,1},
+    {0,0,0,1,1,1},
+    {0,0,0,0,1,1},
+    {0,0,0,0,0,0,1}
+  };
+  vector<vector<long> > row3 = {
+    {0,0,0,0,0,0,1},
+    {0,0,0,0,1,1,1},
+    {1,0,0,1,0,0,1},
+    {0,1,0,0,1,1,1},
+    {0,0,1,0,0,1,1},
+    {0,0,0,0,0,0,1}
+  };
+  vector<vector<long> > row4 = {
+    {0,0,0,0,0,1,1},
+    {0,0,0,0,0,0,1},
+    {0,0,1,0,0,1,1},
+    {1,0,0,1,0,0,1},
+    {0,0,0,0,1,0,1},
+    {0,0,0,0,0,0,0,1}
+  };
+  vector<vector<long> > row5 = {
+    {0,0,0,0,0,0,1},
+    {0,0,0,0,0,1,1},
+    {0,1,0,0,1,0,1},
+    {0,0,0,0,0,1,1},
+    {1,0,0,1,0,1,1},
+    {0,0,0,0,0,0,0,1}
+  };
+  return {row1, row2, row3, row4, row5};
+}
 
 vector<vector<vector<long> > > initb4k3_new() {
   vector<vector<long> > row1 = {
@@ -181,12 +224,13 @@ void solvebk(int b, int k) {
   vector<long> det, sum, nume, deno;
   sum = {0,0};
   if (b == 4 && k == 3) {
-    cout << endl << "SOLVE FOR b=4, k=3" << endl;
     matrix = initb4k3_new();
+  } else if (b == 4 && k == 4) {
+    matrix = initb4k4();
   } else if (b == 3 && k == 2) {
-    cout << endl << "SOLVE FOR b=3, k=2" << endl;
     matrix = initb3k2();
   } else return;
+  cout << endl << "SOLVE FOR b=" << b << ", k=" << k << endl;
   for (int pos = 0; pos < matrix.size(); pos++) {
     det = getDeterminant(matrix, pos);
     cout << "RUNNING: "  << pos << " == " ;
@@ -195,7 +239,11 @@ void solvebk(int b, int k) {
     sum = poliAdd(sum, poliMulti({-2}, det));
   }
   nume = getDeterminant(matrix, matrix.size());
+  cout << endl << "NUMERATOR WEIGHT" <<  endl;
+  printPoli(sum);
+  cout << endl << "DENOMIRATOR WEIGHT" <<  endl;
   printPoli(nume);
+
   deno = poliAdd(poliMulti({1, -2}, nume), sum);
 
   int zeroNum = 0, zeroDen = 0;
@@ -206,9 +254,9 @@ void solvebk(int b, int k) {
     nume.erase(nume.begin());
     deno.erase(deno.begin());
   }
-  cout << endl << "NUMERATOR" <<  endl;
+  cout << endl << "NUMERATOR GF" <<  endl;
   printPoli(nume);
-  cout << endl << "DENOMIRATOR" <<  endl;
+  cout << endl << "DENOMIRATOR GF" <<  endl;
   printPoli(deno);
 
 }
