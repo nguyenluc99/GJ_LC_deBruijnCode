@@ -1,3 +1,4 @@
+#include <algorithm>    // std::copy
 #include <iostream>
 #include <vector>
 #include <map>
@@ -25,6 +26,11 @@ bool checkContained(vector<string> list, string cand);
 vector<string> genString(string word, int bound);
 
 vector<string> genWordList(int, int);
+
+// template <typename T>
+vector<string> getFirstHalf(vector<string>);
+
+bool compareOnLength(string, string);
 
 // polinomial function 
 void printPoli(vector<coefdt>);

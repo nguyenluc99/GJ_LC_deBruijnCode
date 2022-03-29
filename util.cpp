@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>    // std::copy
 #include <vector>
 #include <map>
 #include <assert.h>
@@ -75,7 +76,18 @@ vector<string> genWordList(int b, int k) {
   return forbiddenWords;
 }
 
- coefdt abss(coefdt num) {if (num >= 0) return num; return -num;}
+// template <typename T> // unable to make it template
+vector<string> getFirstHalf(vector<string> myVec) {
+  vector<string> newVec(myVec.begin(), myVec.begin() + myVec.size() / 2);
+  return newVec;
+}
+
+bool compareOnLength(string s1, string s2) {
+  return s1.length() < s2.length();
+}
+
+coefdt abss(coefdt num) {if (num >= 0) return num; return -num;}
+
 void printPoli(vector<coefdt> poli) {
   for (expdt order = poli.size()-1; order >= 0; order --) {
     // print sign

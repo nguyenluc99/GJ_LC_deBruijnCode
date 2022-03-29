@@ -222,15 +222,19 @@ vector<vector<vector<coefdt> > > initb3k2(){
 void solvebk(int b, int k) {
   vector<vector<vector<coefdt> > > matrix, mat;
   vector<coefdt> det, sum, nume, deno;
+  vector<string> wordList, halfWordList;
   sum = {0,0};
-  if (b == 4 && k == 3) {
-    matrix = initb4k3_new();
-  } else if (b == 4 && k == 4) {
-    matrix = initb4k4();
-  } else if (b == 3 && k == 2) {
-    matrix = initb3k2();
-  } else return;
+
   cout << endl << "SOLVE FOR b=" << b << ", k=" << k << endl;
+ //  STEP 1: GENERATE WORD
+  wordList = genWordList(b, k);
+  halfWordList = getFirstHalf(wordList);
+  sort(halfWordList.begin(), halfWordList.end(), compareOnLength); // optional step
+  // STEP 2: GENERATE EQUATION
+  matrix = genEquation(halfWordList);
+  printMatrix(matrix);
+
+  // STEP 3: SOLVE AND FORM GENERATING FUNCTION
   for (int pos = 0; pos < matrix.size(); pos++) {
     det = getDeterminant(matrix, pos);
     cout << "RUNNING: "  << pos << " == " ;
@@ -258,6 +262,7 @@ void solvebk(int b, int k) {
   printPoli(nume);
   cout << endl << "DENOMIRATOR GF" <<  endl;
   printPoli(deno);
+  // STEP 4: INFER COEFFICIENT
 
 }
 
