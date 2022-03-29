@@ -5,6 +5,9 @@ LIBS = -lm
 
 all:  clean main
 
+run:  clean main
+	./main 5 4
+
 main:	 util.o solver.o test.o
 	${CC} ${STD}  solver.o util.o test.o main.cpp -o main
 util.o:
