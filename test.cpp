@@ -1,3 +1,11 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <assert.h>
+#include <math.h>
+#include <typeinfo>
+#include <string>
+#include <bitset>
 #include <algorithm>    // std::copy
 #include "util.hpp"
 #include "solver.hpp"
@@ -39,23 +47,11 @@ bool equationCompare(vector<vector<vector<T> > > formed, vector<vector<vector<T>
   return true;
 }
 
-
-template <typename T>
-vector<T> getFirstHalf(vector<T> myVec) {
-  //vector<T>::const_iterator 
-    auto first = myVec.begin();
-  //vector<T>::const_iterator 
-    auto last = myVec.begin() + myVec.size() / 2;
-  vector<T> newVec(first, last);
-  return newVec;
-}
-
-bool compareBinStr(string s1, string s2) {
-  return s1.length() < s2.length();
-}
-
-
 void testEquasFormation() {
+  vector<vector<vector<coefdt> > > equations;
+  vector<string> wordList;
+  vector<string> halfWordList;
+
   cout << "Start testing bitReverse" << endl;
   assert(vectorCompare(bitReverse("0000"),"1111"));
   assert(vectorCompare(bitReverse("11111"),"00000"));
@@ -80,9 +76,9 @@ void testEquasFormation() {
 
   cout << "Start testing Equation formation" << endl;
   int b = 3, k = 2;
-  vector<vector<vector<coefdt> > > equations = initb3k2();
-  vector<string> wordList = genWordList(b, k);
-  vector<string> halfWordList = getFirstHalf(wordList);//(&wordList[0], &wordList[0] + wordList.size() / 2);
+  equations = initb3k2();
+  wordList = genWordList(b, k);
+  halfWordList = getFirstHalf(wordList);//(&wordList[0], &wordList[0] + wordList.size() / 2);
   vector<vector<vector<coefdt> > > formedEquas = genEquation(halfWordList);
   assert(equationCompare(formedEquas, equations));
   cout << "PASS b=" << b << ", k=" << k << endl;
@@ -91,7 +87,7 @@ void testEquasFormation() {
   equations = initb4k3_new();
   wordList = genWordList(b, k);
   halfWordList = getFirstHalf(wordList);
-  sort(halfWordList.begin(), halfWordList.end(), compareBinStr);
+  sort(halfWordList.begin(), halfWordList.end(), compareOnLength);
   formedEquas = genEquation(halfWordList);
   assert(equationCompare(formedEquas, equations));
   cout << "PASS b=" << b << ", k=" << k << endl;
@@ -100,7 +96,7 @@ void testEquasFormation() {
   equations = initb4k4();
   wordList = genWordList(b, k);
   halfWordList = getFirstHalf(wordList);
-  sort(halfWordList.begin(), halfWordList.end(), compareBinStr);
+  sort(halfWordList.begin(), halfWordList.end(), compareOnLength);
   formedEquas = genEquation(halfWordList);
   // cout << "========== FORMED: " << endl;
   // printMatrix(formedEquas);
