@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>    // std::copy
 #include <vector>
 #include <map>
 #include <assert.h>
@@ -9,6 +10,8 @@
 #include <algorithm>
 #include "util.hpp"
 using namespace std;
+
+
 
 vector<string> mergeVector(vector<string> a, vector<string> b) {
   vector<string> c = a;
@@ -62,7 +65,7 @@ vector<string> genString(string word, int bound) {
 vector<string> genWordList(int b, int k) {
   vector<string> model;
   // get word list
-  for (int i = 0; i < pow(2, k); i++) {
+  for (long i = 0; i < pow(2, k); i++) {
     model.push_back(toBinary(i, k));
   }
   vector <string> forbiddenWords;
@@ -73,9 +76,20 @@ vector<string> genWordList(int b, int k) {
   return forbiddenWords;
 }
 
-long abss(long num) {if (num >= 0) return num; return -num;}
-void printPoli(vector<long> poli) {
-  for (int order = poli.size()-1; order >= 0; order --) {
+// template <typename T> // unable to make it template
+vector<string> getFirstHalf(vector<string> myVec) {
+  vector<string> newVec(myVec.begin(), myVec.begin() + myVec.size() / 2);
+  return newVec;
+}
+
+bool compareOnLength(string s1, string s2) {
+  return s1.length() < s2.length();
+}
+
+coefdt abss(coefdt num) {if (num >= 0) return num; return -num;}
+
+void printPoli(vector<coefdt> poli) {
+  for (expdt order = poli.size()-1; order >= 0; order --) {
     // print sign
     if (poli.at(order) == 0) continue;
     if (poli.at(order) < 0) cout << "-";
@@ -91,8 +105,8 @@ void printPoli(vector<long> poli) {
 
 // polinomoal function
 template <typename T>
-int minIndex(vector<T> vec) {
-  for (int i = 0; i < vec.size(); i++) {
+expdt minIndex(vector<T> vec) {
+  for (expdt i = 0; i < vec.size(); i++) {
     if (vec.at(i) != (T) 0) return i;
   }
   return -1;
@@ -107,12 +121,12 @@ vector<T> trimZero(vector<T> vec) {
 }
 
 //template<typename T>
-vector<long> poliMulti(vector<long> a, vector<long> b) {
+vector<coefdt> poliMulti(vector<coefdt> a, vector<coefdt> b) {
   a = trimZero(a);
   b = trimZero(b);
-  vector<long> c(a.size() + b.size() - 1, 0);
-  for (int ord = 0; ord < c.size(); ord ++) {
-    for (int runOrd = 0; runOrd <= ord ; runOrd ++) {
+  vector<coefdt> c(a.size() + b.size() - 1, 0);
+  for (expdt ord = 0; ord < c.size(); ord ++) {
+    for (expdt runOrd = 0; runOrd <= ord ; runOrd ++) {
       if (runOrd < a.size() && ord - runOrd < b.size())
         c[ord] += a[runOrd] * b[ord - runOrd];
     }
@@ -121,9 +135,9 @@ vector<long> poliMulti(vector<long> a, vector<long> b) {
 }
 
 //template<typename T>
-vector<long> poliAdd(vector<long> a, vector<long> b) {
-  vector<long> c(max(a.size(), b.size()), 0);
-  for (int ord = 0; ord < c.size(); ord ++) {
+vector<coefdt> poliAdd(vector<coefdt> a, vector<coefdt> b) {
+  vector<coefdt> c(max(a.size(), b.size()), 0);
+  for (expdt ord = 0; ord < c.size(); ord ++) {
     if (ord < a.size()) c[ord] += a[ord];
     if (ord < b.size()) c[ord] += b[ord];
   }
@@ -132,7 +146,7 @@ vector<long> poliAdd(vector<long> a, vector<long> b) {
   return  c;
 }
 
-void printMatrix(vector<vector<vector<long> > > matrix) {
+void printMatrix(vector<vector<vector<coefdt> > > matrix) {
   int row = matrix.size();
   for (int r = 0; r < row; r++) {
     int col = matrix[r].size();
@@ -144,15 +158,15 @@ void printMatrix(vector<vector<vector<long> > > matrix) {
   }
 }
 
-vector<vector<vector<long> > > subMatrix(vector<vector<vector<long> > > matrix, int pos, bool removeFirst) {
-  vector<vector<vector<long> > > newMatrix;
+vector<vector<vector<coefdt> > > subMatrix(vector<vector<vector<coefdt> > > matrix, int pos, bool removeFirst) {
+  vector<vector<vector<coefdt> > > newMatrix;
   if (removeFirst) {
     matrix.erase(matrix.begin());
   }
   int maxr = matrix.size(),
       maxc = matrix[0].size();
   for (int r = 0; r < maxr; r++) {
-    vector<vector<long> > tmp;
+    vector<vector<coefdt> > tmp;
     for (int c = 0; c < maxc; c++) {
       if (c != pos) tmp.push_back(matrix[r][c]);
     }
@@ -161,15 +175,15 @@ vector<vector<vector<long> > > subMatrix(vector<vector<vector<long> > > matrix, 
   return newMatrix;
 }
 
-vector<long> matrixDet(vector<vector<vector<long> > > matrix, int size){
+vector<coefdt> matrixDet(vector<vector<vector<coefdt> > > matrix, int size){
   if (size == 1) {
-    vector<long> elem = matrix[0][0];
+    vector<coefdt> elem = matrix[0][0];
     return elem;
   }
-  vector<long> det, coef, res;
-  vector<long> result = {0};
-  vector<vector<vector<long> > > subMat;
-  vector<vector<long> > firstRow = matrix[0];
+  vector<coefdt> det, coef, res;
+  vector<coefdt> result = {0};
+  vector<vector<vector<coefdt> > > subMat;
+  vector<vector<coefdt> > firstRow = matrix[0];
   int sign = 1;
   for(int i = 0; i < size; i++) {
     subMat = subMatrix(matrix, i, true);
@@ -183,28 +197,76 @@ vector<long> matrixDet(vector<vector<vector<long> > > matrix, int size){
 }
 
 // mathematics fulction
-vector<long> getH(int step, int maxOrder) {
-  vector<long> result(maxOrder + 1, (long) 0);
-  for (int i = 0; maxOrder - step * i >= 0; i++) {
-    result[maxOrder - step * i] = (long) 1;
+vector<coefdt> getH(expdt step, expdt maxOrder) {
+  vector<coefdt> result(maxOrder + 1, (coefdt) 0);
+  for (expdt i = 0; maxOrder - step * i >= 0; i++) {
+    result[maxOrder - step * i] = (coefdt) 1;
   }
   return result;
 }
 
-vector<long> getG(int maxOrder) {
-  //return poliAdd({1}, getH(1, maxOrder));
-  // return (vector<long>) getH(1, maxOrder);
-  vector<long> result(maxOrder + 1, (long) 0);
-  for (int i = 0; maxOrder - i >= 0; i++) {
-    result[maxOrder - i] = (long) 1;
+vector<coefdt> getG(expdt maxOrder) {
+  vector<coefdt> result(maxOrder + 1, (coefdt) 0);
+  for (expdt i = 0; maxOrder - i >= 0; i++) {
+    result[maxOrder - i] = (coefdt) 1;
   }
   return result;
 }
 
-vector<long> power(int order){
-  vector<long> result(order + 1, 0);
+vector<coefdt> power(expdt order){
+  vector<coefdt> result(order + 1, 0);
   result[order] = 1;
   return result;
 }
+
+string bitReverse(string str) {
+  string out = str;
+  int len = str.length();
+  for (int i = 0; i < len; i++) out[i] = str[i] == '1' ? '0' : '1';
+  out[len] = '\0';
+  return out;
+}
+
+vector<coefdt> overlap(string first, string last) {
+  int lenFirst = first.length(), lenLast = last.length();
+  vector<coefdt> overl(lenFirst, 0);
+  string subFirst, subLast;
+  for (int i = lenFirst - 1; i >= 0 && lenFirst - 1 - i < lenLast; i--) {
+    subFirst = first.substr(i, lenFirst - i);
+    subLast  = last.substr(0, lenFirst - i);
+    if (subFirst.compare(subLast) == 0) 
+      overl.at(i) = (coefdt) 1;
+  }
+  return overl;
+}
+
+
+vector<vector<vector<coefdt> > > genEquation(vector<string> wordList) {
+  vector<vector<vector<coefdt> > > ret;
+  for (string word : wordList) {
+    vector<vector<coefdt> > row = {};
+    for (string wordV : wordList) {
+      // original word
+      vector<coefdt> o1 = overlap(word, wordV);
+      // reversed word
+      vector<coefdt> o2 = overlap(word, bitReverse(wordV));
+      // combine two equation
+      o1 = poliAdd(o1, o2);
+      row.push_back(o1);
+    }
+    row.push_back(power((coefdt)word.length()));
+    ret.push_back(row);
+  }
+  return ret;
+}
+
+
+
+
+
+
+
+
+
 
 
