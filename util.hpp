@@ -8,6 +8,9 @@
 #include <bitset>
 using namespace std;
 
+typedef long long coefdt;
+typedef long long expdt;
+
 
 vector<string> mergeVector(vector<string> a, vector<string> b);
 
@@ -46,5 +49,7 @@ vector<long> getG(int maxOrder);
 
 vector<long> power(int order);
 
+string bitReverse(string);
 
+vector<coefdt> overlap(string, string);
 

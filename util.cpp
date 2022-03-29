@@ -207,4 +207,22 @@ vector<long> power(int order){
   return result;
 }
 
+string bitReverse(string str) {
+  string out = str;
+  int len = str.length();
+  for (int i = 0; i < len; i++) out[i] = str[i] == '1' ? '0' : '1';
+  out[len] = '\0';
+  return out;
+}
+
+vector<coefdt> overlap(string first, string last) {
+  return {};
+
+}
+
+
+
+
+
+
 
