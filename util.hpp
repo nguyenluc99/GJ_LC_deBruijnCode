@@ -8,9 +8,9 @@
 #include <bitset>
 using namespace std;
 
+
 typedef long long coefdt;
 typedef long long expdt;
-
 
 vector<string> mergeVector(vector<string> a, vector<string> b);
 
@@ -27,29 +27,31 @@ vector<string> genString(string word, int bound);
 vector<string> genWordList(int, int);
 
 // polinomial function 
-void printPoli(vector<long>);
+void printPoli(vector<coefdt>);
 
 template <typename T>
-int minIndex(vector<T>);
+expdt minIndex(vector<T>);
 
-vector<long> poliMulti(vector<long>, vector<long>);
+vector<coefdt> poliMulti(vector<coefdt>, vector<coefdt>);
 
-vector<long> poliAdd(vector<long>, vector<long>);
+vector<coefdt> poliAdd(vector<coefdt>, vector<coefdt>);
 
 // matrix function
-void printMatrix(vector<vector<vector<long> > >);
+void printMatrix(vector<vector<vector<coefdt> > >);
 
-vector<vector<vector<long> > > subMatrix(vector<vector<vector<long> > >, int, bool);
+vector<vector<vector<coefdt> > > subMatrix(vector<vector<vector<coefdt> > >, int, bool);
 
-vector<long> matrixDet(vector<vector<vector<long> > >, int size);
+vector<coefdt> matrixDet(vector<vector<vector<coefdt> > >, int size);
 
-vector<long> getH(int step, int maxOrder);
+vector<coefdt> getH(expdt step, expdt maxOrder);
 
-vector<long> getG(int maxOrder);
+vector<coefdt> getG(expdt maxOrder);
 
-vector<long> power(int order);
+vector<coefdt> power(expdt order);
 
 string bitReverse(string);
 
 vector<coefdt> overlap(string, string);
+
+vector<vector<vector<coefdt> > > genEquation(vector<string> wordList);
 
