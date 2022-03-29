@@ -260,7 +260,26 @@ vector<vector<vector<coefdt> > > genEquation(vector<string> wordList) {
   return ret;
 }
 
+template <typename T>
+expdt minOrder(vector<T> poli) {
+  for (expdt i = 0; i < poli.size(); i++) {
+    if (poli.at(i) != 0) return i;
+  }
+  return (expdt) poli.size();
+}
 
+void macclauExpand(vector<coefdt> nume, vector<coefdt> deno, expdt order) {
+  assert(order >= 0);
+  expdt minPowerDeno = minOrder(deno);
+  coefdt quot;
+
+  for (expdt i = 0; i <= order; i++) {
+    expdt minPowerNume = minOrder(nume);
+    quot = nume.at(minPowerNume) / deno.at(minPowerDeno);
+    cout << "cardinality: " << quot << "\t at n = " << i  << "bits, \trate is: " << log(quot) / log(2) / i << endl;
+    nume = poliAdd(nume, poliMulti(deno, poliMulti({-quot}, power(minPowerNume - minPowerDeno))));
+  }
+}
 
 
 

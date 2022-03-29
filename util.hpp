@@ -61,3 +61,8 @@ vector<coefdt> overlap(string, string);
 
 vector<vector<vector<coefdt> > > genEquation(vector<string> wordList);
 
+template <typename T>
+expdt minOrder(vector<T> poli);
+
+void macclauExpand(vector<coefdt> nume, vector<coefdt> deno, expdt order);
+

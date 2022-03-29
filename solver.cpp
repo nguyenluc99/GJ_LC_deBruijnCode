@@ -263,6 +263,6 @@ void solvebk(int b, int k) {
   cout << endl << "DENOMIRATOR GF" <<  endl;
   printPoli(deno);
   // STEP 4: INFER COEFFICIENT
-
+  macclauExpand(nume, deno, 200);
 }
 
