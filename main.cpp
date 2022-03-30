@@ -8,6 +8,8 @@
 #include <bitset>
 #include "util.hpp"
 #include "solver.hpp"
+#include "test.hpp"
+
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -19,9 +21,10 @@ int main(int argc, char* argv[]) {
   int k = (int) atoi(argv[2]);
   cout << "b = " << b << ", k = " << k << endl;
   assert( b < pow(2, k));
+  testEquasFormation();
 
-  solvebk(4,3);
-  solvebk(3,2);
+  if (b != 0 && k != 0) 
+    solvebk(b, k);
   return 0;
 
 }
