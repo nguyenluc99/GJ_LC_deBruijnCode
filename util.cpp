@@ -48,14 +48,29 @@ bool checkContained(vector<string> list, string cand) {
   return false;
 }
 
+vector<string> appendToAll(vector<string> vec, const char element) {
+  vector<string> newVec;
+  for (string str : vec) {
+    newVec.push_back(str + element);
+  }
+  return newVec;
+}
+
 vector<string> genString(string word, int bound) {
   vector <string> result;
   int wl = word.length();
   for(int gap = 1; gap < bound; gap++){
-    string newWord = word;
-    for (int i = wl - gap; i <= wl - 1; i++) newWord = newWord + word[i];
-    if (checkGap(newWord, gap, wl) && !checkContained(result, newWord))  {
-      result.push_back(newWord);
+    vector<string> newWords = {word};
+    for (int i = wl - gap; i <= wl - 1; i++) {
+      if (i < 0)
+        newWords = mergeVector(appendToAll(newWords, '0'), appendToAll(newWords, '1'));
+      else
+        newWords = appendToAll(newWords, word[i]);
+    }
+    for (string newWord : newWords) {
+      if (checkGap(newWord, gap, wl) && !checkContained(result, newWord))  {
+        result.push_back(newWord);
+      }
     }
   }
 
