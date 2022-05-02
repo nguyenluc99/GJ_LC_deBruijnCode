@@ -232,21 +232,23 @@ void solvebk(int b, int k) {
   sort(halfWordList.begin(), halfWordList.end(), compareOnLength); // optional step
   // STEP 2: GENERATE EQUATION
   matrix = genEquation(halfWordList);
+  cout << "The equation matrix is: " << endl;
   printMatrix(matrix);
 
   // STEP 3: SOLVE AND FORM GENERATING FUNCTION
+  cout << "Getting determinants: " << endl;
   for (int pos = 0; pos < matrix.size(); pos++) {
     det = getDeterminant(matrix, pos);
-    cout << "RUNNING: "  << pos << " == " ;
+    cout << "Determinant "  << pos << " = " ;
     printPoli(det);
     cout << endl;
     sum = poliAdd(sum, poliMulti({-2}, det));
   }
   nume = getDeterminant(matrix, matrix.size());
-  cout << endl << "NUMERATOR WEIGHT" <<  endl;
-  printPoli(sum);
-  cout << endl << "DENOMIRATOR WEIGHT" <<  endl;
-  printPoli(nume);
+  // cout << endl << "NUMERATOR WEIGHT" <<  endl;
+  // printPoli(sum);
+  // cout << endl << "DENOMIRATOR WEIGHT" <<  endl;
+  // printPoli(nume);
 
   deno = poliAdd(poliMulti({1, -2}, nume), sum);
 
@@ -258,10 +260,11 @@ void solvebk(int b, int k) {
     nume.erase(nume.begin());
     deno.erase(deno.begin());
   }
-  cout << endl << "NUMERATOR GF" <<  endl;
+  cout << endl << "Numerator of generating function" <<  endl;
   printPoli(nume);
-  cout << endl << "DENOMIRATOR GF" <<  endl;
+  cout << endl << "Denomirator of generating function" <<  endl;
   printPoli(deno);
+  cout << endl << "RATE INFERENCE: " << endl;
   // STEP 4: INFER COEFFICIENT
   macclauExpand(nume, deno, 200);
 }
